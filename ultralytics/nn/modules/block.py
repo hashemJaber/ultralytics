@@ -367,7 +367,7 @@ class CSPMirrorNet(nn.Module):
         Feaute Map:Tensor
    """
 
-   def __init__(self,num_of_base_blocks:int,input_shape:Tensor,verbose:bool=False,overlap_percentage:float=0.20,stride:int=2)->None:
+   def __init__(self,num_of_base_blocks:int,input_shape:Tensor,verbose:bool=True,overlap_percentage:float=0.20,stride:int=2)->None:
       super(CSPMirrorNet,self).__init__()
       self.base_blocks = nn.ModuleList()
       """
@@ -375,7 +375,7 @@ class CSPMirrorNet(nn.Module):
       for i in range(num_of_base_blocks):
         self.base_blocks.append(BaseConvBlockCSP(input_shape,4)) #TODO FIX/CHANGEME
       """
-      self.base_block = BaseConvBlockCSP(input_shape,4,stride=stride)
+      self.base_block = BaseConvBlockCSP(input_shape,4,stride=stride,verbose=verbose)
       self.verbose=verbose
       self.overlap_percentage=overlap_percentage
 
