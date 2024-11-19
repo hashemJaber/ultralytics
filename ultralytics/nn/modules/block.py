@@ -440,6 +440,12 @@ class CSPMirrorNet(nn.Module):
             scale_factor = example1.shape[1] // processed_part1.shape[1]
             example1 = example1.view(example1.shape[0], processed_part1.shape[1], scale_factor, example1.shape[2], example1.shape[3])
             example1 = example1.mean(dim=2)  # Average pooling across grouped channels
+
+            example2 = example2.view(example2.shape[0], processed_part1.shape[1], scale_factor, example2.shape[2], example2.shape[3])
+            example2 = example2.mean(dim=2)  # Average pooling across grouped channels
+
+
+
         else:
             temp=example2
             example2 = torch.cat([example2, example1], dim=1)
