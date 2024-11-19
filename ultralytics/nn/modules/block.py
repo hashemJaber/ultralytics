@@ -238,7 +238,7 @@ class ConvBlockCSP(nn.Module):
    output:
          original feature map, new feature map
    """
-   def __init__(self, input_channel: int,out_put_channel:int,stride:int=1, kernel_size:tuple=(2,2), verbose:bool=True)->None:
+   def __init__(self, input_channel: int,out_put_channel:int,stride:int=1, kernel_size:tuple=(2,2), verbose:bool=False)->None:
        super(ConvBlockCSP,self).__init__()
        self.conv1= nn.Conv2d(input_channel,out_put_channel,kernel_size=kernel_size,stride=stride,padding=1 )
        self.activation = nn.Mish()
@@ -375,7 +375,7 @@ class CSPMirrorNet(nn.Module):
       for i in range(num_of_base_blocks):
         self.base_blocks.append(BaseConvBlockCSP(input_shape,4)) #TODO FIX/CHANGEME
       """
-      self.base_block = BaseConvBlockCSP(input_shape,num_of_base_blocks/2,stride=stride,verbose=verbose)
+      self.base_block = BaseConvBlockCSP(input_shape,num_of_base_blocks,stride=stride,verbose=verbose)
       self.verbose=verbose
       self.overlap_percentage=overlap_percentage
 
