@@ -435,6 +435,9 @@ class CSPMirrorNet(nn.Module):
             temp=example2
             example2 = torch.cat([example2, example1], dim=1)
             example1 = torch.cat([example1, temp], dim=1)
+            print('example 2',example2.shape)
+            print('example 1',example1.shape)
+            print('temp ', temp.shape)
             del temp
 
       concat1 = example2+ processed_part1 #torch.cat([example2, processed_part1], dim=1)
