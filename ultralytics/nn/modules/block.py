@@ -178,7 +178,7 @@ class SPPF(nn.Module):
         This module is equivalent to SPP(k=(5, 9, 13)).
         """
         super().__init__()
-        c1=c1+8
+        
         c_ = c1 // 2  # hidden channels
         
         self.cv1 = Conv(c1, c_, 1, 1)
