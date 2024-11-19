@@ -375,6 +375,8 @@ class CSPMirrorNet(nn.Module):
       for i in range(num_of_base_blocks):
         self.base_blocks.append(BaseConvBlockCSP(input_shape,4)) #TODO FIX/CHANGEME
       """
+      num_of_base_blocks=num_of_base_blocks/2
+      print('num of base blocks')
       self.base_block = BaseConvBlockCSP(input_shape,num_of_base_blocks,stride=stride,verbose=verbose)
       self.verbose=verbose
       self.overlap_percentage=overlap_percentage
