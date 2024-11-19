@@ -238,7 +238,7 @@ class ConvBlockCSP(nn.Module):
    output:
          original feature map, new feature map
    """
-   def __init__(self, input_channel: int,out_put_channel:int,stride:int=1, kernel_size:tuple=(2,2), verbose:bool=False)->None:
+   def __init__(self, input_channel: int,out_put_channel:int,stride:int=1, kernel_size:tuple=(2,2), verbose:bool=True)->None:
        super(ConvBlockCSP,self).__init__()
        self.conv1= nn.Conv2d(input_channel,out_put_channel,kernel_size=kernel_size,stride=stride,padding=1 )
        self.activation = nn.Mish()
@@ -264,7 +264,7 @@ class ConvBlockCSP(nn.Module):
      if x1.size(2) != x2.size(2) or x1.size(3) != x2.size(3):
             x1 = nn.functional.adaptive_avg_pool2d(x1, (x2.size(2), x2.size(3)))
 
-     x3 = torch.cat([x1,x2+x1],1)
+     x3 = x2+x1 # torch.cat([x1,x2+x1],1)
 
      if(self.verbose):
        print('x3 shape ',x3.shape)
