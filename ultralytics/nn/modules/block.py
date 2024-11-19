@@ -461,7 +461,7 @@ class C2f(nn.Module):
     def __init__(self, c1, c2, n=1, shortcut=False, g=1, e=0.5):
         """Initializes a CSP bottleneck with 2 convolutions and n Bottleneck blocks for faster processing."""
         super().__init__()
-        self.cv1=CSPMirrorNet(c2,c1)
+        self.cv1=CSPMirrorNet(c2,c1, stride=1)
     def forward(self, x):
         """Forward pass through C2f layer."""
         
