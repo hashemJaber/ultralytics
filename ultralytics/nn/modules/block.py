@@ -431,9 +431,9 @@ class CSPMirrorNet(nn.Module):
 
       example2 = nn.functional.adaptive_avg_pool2d(part_2, (processed_part2.size(2), processed_part2.size(3)))
       example1 = nn.functional.adaptive_avg_pool2d(part_1, (processed_part1.size(2), processed_part1.size(3)))
-
-      restacked_example2 = torch.cat([example2, example1], dim=1)
-      restacked_example1 = torch.cat([example1, example2], dim=1)
+      if(example1.shape[1]!=processed_part1.shape[1]):
+            restacked_example2 = torch.cat([example2, example1], dim=1)
+            restacked_example1 = torch.cat([example1, example2], dim=1)
 
       concat1 = restacked_example2+ processed_part1 #torch.cat([example2, processed_part1], dim=1)
 
