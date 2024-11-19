@@ -6,7 +6,7 @@ import math
 import numpy as np
 import torch
 import torch.nn as nn
-
+import torch.nn.functional as F
 __all__ = (
     "Conv",
     "Conv2",
@@ -336,4 +336,13 @@ class Concat(nn.Module):
 
     def forward(self, x):
         """Forward pass for the YOLOv8 mask Proto module."""
+
+        # This is to fix the dim mismatch, not ideal but temp
+        max_height = max([t.size(2) for t in x])
+        max_width = max([t.size(3) for t in x])
+
+        x_resized = [F.interpolate(t, size=(max_height, max_width), mode='bilinear', align_corners=False) for t in x]
+ 
+        output = torch.cat(x_resized, self.d)
+        print(f"Output tensor shape after concatenation: {output.shape}")  # Debugging
         return torch.cat(x, self.d)
