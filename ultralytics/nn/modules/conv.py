@@ -345,4 +345,4 @@ class Concat(nn.Module):
  
         output = torch.cat(x_resized, self.d)
         print(f"Output tensor shape after concatenation: {output.shape}")  # Debugging
-        return torch.cat(x, self.d)
+        return output
