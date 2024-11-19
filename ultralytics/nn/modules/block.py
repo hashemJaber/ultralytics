@@ -432,6 +432,11 @@ class CSPMirrorNet(nn.Module):
       example2 = nn.functional.adaptive_avg_pool2d(part_2, (processed_part2.size(2), processed_part2.size(3)))
       example1 = nn.functional.adaptive_avg_pool2d(part_1, (processed_part1.size(2), processed_part1.size(3)))
       if(example1.shape[1]!=processed_part1.shape[1]):
+        if example1.shape[1] > processed_part1.shape[1]:
+            scale_factor = example1.shape[1] // processed_part1.shape[1]
+            example1 = example1.view(example1.shape[0], processed_part1.shape[1], scale_factor, example1.shape[2], example1.shape[3])
+            example1 = example1.mean(dim=2)  # Average pooling across grouped channels
+        else:
             temp=example2
             example2 = torch.cat([example2, example1], dim=1)
             example1 = torch.cat([example1, temp], dim=1)
