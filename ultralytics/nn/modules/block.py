@@ -240,7 +240,7 @@ class ConvBlockCSP(nn.Module):
    """
    def __init__(self, input_channel: int,out_put_channel:int,stride:int=1, kernel_size:tuple=(2,2), verbose:bool=False)->None:
        super(ConvBlockCSP,self).__init__()
-       self.conv1= nn.Conv2d(input_channel,out_put_channel,kernel_size=kernel_size,stride=stride,padding=1 )
+       self.conv1= nn.Conv2d(input_channel,out_put_channel,kernel_size=kernel_size,stride=stride,padding=2 )
        self.activation = nn.Mish()
 
        self.conv2= nn.Conv2d(out_put_channel,out_put_channel,kernel_size=kernel_size,stride=1 )
@@ -367,7 +367,7 @@ class CSPMirrorNet(nn.Module):
         Feaute Map:Tensor
    """
 
-   def __init__(self,num_of_base_blocks:int,input_shape:Tensor,verbose:bool=True,overlap_percentage:float=0.20,stride:int=2)->None:
+   def __init__(self,num_of_base_blocks:int,input_shape:Tensor,verbose:bool=True,overlap_percentage:float=0.20,stride:int=1)->None:
       super(CSPMirrorNet,self).__init__()
       self.base_blocks = nn.ModuleList()
       """
@@ -432,8 +432,10 @@ class CSPMirrorNet(nn.Module):
       example2 = nn.functional.adaptive_avg_pool2d(part_2, (processed_part2.size(2), processed_part2.size(3)))
       example1 = nn.functional.adaptive_avg_pool2d(part_1, (processed_part1.size(2), processed_part1.size(3)))
       if(example1.shape[1]!=processed_part1.shape[1]):
+            temp=example2
             example2 = torch.cat([example2, example1], dim=1)
-            example1 = torch.cat([example1, example2], dim=1)
+            example1 = torch.cat([example1, temp], dim=1)
+            del temp
 
       concat1 = example2+ processed_part1 #torch.cat([example2, processed_part1], dim=1)
 
