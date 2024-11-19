@@ -446,6 +446,8 @@ class CSPMirrorNet(nn.Module):
             #example2 = example2.view(example2.shape[0], processed_part1.shape[1], scale_factor, example2.shape[2], example2.shape[3])
             #example2 = example2.mean(dim=2)  # Average pooling across grouped channels
             example2 = nn.functional.adaptive_avg_pool2d(example2, (processed_part1.size(2), processed_part1.size(3)))
+            print('after example1', example1.shape)
+          
 
 
 
