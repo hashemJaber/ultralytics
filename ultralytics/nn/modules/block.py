@@ -432,9 +432,12 @@ class CSPMirrorNet(nn.Module):
       example2 = nn.functional.adaptive_avg_pool2d(part_2, (processed_part2.size(2), processed_part2.size(3)))
       example1 = nn.functional.adaptive_avg_pool2d(part_1, (processed_part1.size(2), processed_part1.size(3)))
 
-      concat1 = torch.cat([example2, processed_part1], dim=1)
+      restacked_example2 = torch.cat([example2, example1], dim=1)
+      restacked_example1 = torch.cat([example1, example2], dim=1)
 
-      concat2 = torch.cat([example1, processed_part2], dim=1)
+      concat1 = restacked_example2+ processed_part1 #torch.cat([example2, processed_part1], dim=1)
+
+      concat2 = restacked_example1 + processed_part2 #torch.cat([example1, processed_part2], dim=1)
 
       # Sum the concatenated outputs, we can also opt out to concatinate them but this will increase computational cost
       combined_output = concat1 + concat2
