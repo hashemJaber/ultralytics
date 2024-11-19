@@ -367,7 +367,7 @@ class CSPMirrorNet(nn.Module):
         Feaute Map:Tensor
    """
 
-   def __init__(self,num_of_base_blocks:int,input_shape:Tensor,verbose:bool=True,overlap_percentage:float=0.20,stride:int=1)->None:
+   def __init__(self,num_of_base_blocks:int,input_shape:Tensor,verbose:bool=False,overlap_percentage:float=0.20,stride:int=1)->None:
       super(CSPMirrorNet,self).__init__()
       self.base_blocks = nn.ModuleList()
       """
@@ -433,10 +433,7 @@ class CSPMirrorNet(nn.Module):
       example1 = nn.functional.adaptive_avg_pool2d(part_1, (processed_part1.size(2), processed_part1.size(3)))
       if(example1.shape[1]!=processed_part1.shape[1]):
         if example1.shape[1] > processed_part1.shape[1]:
-            print('example1 > processed_part1 ')
-            print('example1', example1.shape)
-            print('processed_part1', processed_part1.shape)
-           
+          
             num_chunks = example1.shape[1] // processed_part1.shape[1]
             reduced_example1 = example1[:, :processed_part1.shape[1], :, :]
 
@@ -455,19 +452,12 @@ class CSPMirrorNet(nn.Module):
 
             # Divide by number of chunks to normalize
             example2 = reduced_example2 / num_chunks
-            print('After averaging chunks, example1 shape:', example1.shape)
-            print('after example1', example1.shape)
-          
-
-
+      
 
         else:
             temp=example2
             example2 = torch.cat([example2, example1], dim=1)
             example1 = torch.cat([example1, temp], dim=1)
-            print('example 2',example2.shape)
-            print('example 1',example1.shape)
-            print('temp ', temp.shape)
             del temp
 
       concat1 = example2+ processed_part1 #torch.cat([example2, processed_part1], dim=1)

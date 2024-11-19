@@ -49,11 +49,9 @@ class Conv(nn.Module):
 
     def forward(self, x):
         """Apply convolution, batch normalization and activation to input tensor."""
-        print("x before CONV MODULE", x.shape)
-        print("C1 is ",self.c1)
-        print("C2 is ",self.c1)
+      
         result=self.act(self.bn(self.conv(x)))
-        print("x after CONV MODULE", x.shape)
+      
         return result
 
     def forward_fuse(self, x):
@@ -344,5 +342,5 @@ class Concat(nn.Module):
         x_resized = [F.interpolate(t, size=(max_height, max_width), mode='bilinear', align_corners=False) for t in x]
  
         output = torch.cat(x_resized, self.d)
-        print(f"Output tensor shape after concatenation: {output.shape}")  # Debugging
+        
         return output
